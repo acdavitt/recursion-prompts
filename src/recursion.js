@@ -183,7 +183,7 @@ var palindrome = function(string) {
   if (string.length === 0 || string.length === 1) {
     return true;
   }
-  
+
   if (string.length === 2 && string[0] === string[string.length - 1]) {
     return true;
   } else if (string[0] !== string[string.length - 1]) {
@@ -274,11 +274,43 @@ var countKeysInObj = function(obj, key) {
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+ 
+  var count = 0;
+  if (typeof Object.values(obj)[0] !== 'object' && Object.values(obj)[0] === value) {
+    count++;
+    return count;
+  } else if (typeof Object.values(obj)[0] !== 'object' && Object.values(obj)[0] !== value) {
+    return count;
+  }
+
+  for (var key in obj) {
+    count += countValuesInObj(obj[key], value);
+  }
+  return count;
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
+  
+  if (typeof Object.values(obj)[0] !== 'object' && Object.keys(obj)[0] === oldKey) {
+    obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
+    return obj;
+   } else if (typeof Object.values(obj)[0] !== 'object' && Object.keys(obj)[0] !== oldKey) {
+    return obj;
+  }
+
+  for (var key in obj) {
+    if (key === oldKey) {
+      obj[newKey] = obj[key]
+      delete obj[key];
+      key = newKey;
+    }
+   
+    replaceKeysInObj(obj[key], oldKey, newKey)
+  }
+  return obj;
 };
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
