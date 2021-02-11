@@ -231,16 +231,43 @@ var compareStr = function(str1, str2) {
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+  
+  if (str.length === 1) {
+    return [str];
+  }
+  var arr = [];
+  for (var char of str) {
+    arr = arr.concat(createArray(char));
+  }
+
+  return arr;
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+  
+  if (array.length === 1) {
+    return array;
+  }
+  var reversed = [array.pop()];
+
+  reversed = reversed.concat(reverseArr(array));
+  
+  return reversed;
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+
+  if (length === 1) {
+    return [value];
+  }
+  var list = [value];
+  list = list.concat(buildList(value, (length - 1)));
+
+  return list;
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
