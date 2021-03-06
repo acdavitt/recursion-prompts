@@ -10,7 +10,7 @@ var factorial = function(n) {
   if (n < 0) {
     return null;
   }
-  
+
   if (n === 0) {
     return 1;
   }
@@ -34,7 +34,7 @@ var sum = function(array) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
- 
+
   var total = 0;
 
   if (array.length === 0) {
@@ -49,11 +49,11 @@ var arraySum = function(array) {
   while (typeof copy[0] === 'number') {
     total += copy.shift();
   }
- 
+
   for (var subArr of copy) {
     total += arraySum(subArr);
   }
-  
+
   return total;
 };
 
@@ -74,12 +74,12 @@ var isEven = function(n) {
 var sumBelow = function(n) {
 
   var isNegative = false;
-  
+
   if (n < 0) {
     n = Math.abs(n);
     isNegative = true;
   }
- 
+
   if (n === 0) {
     return 0;
   }
@@ -87,7 +87,7 @@ var sumBelow = function(n) {
   if (isNegative) {
     return -((n - 1) + sumBelow(n - 1));
   }
-  
+
   return (n - 1) + sumBelow(n - 1);
 };
 
@@ -103,7 +103,7 @@ var range = function(x, y) {
     if ((x - y) === 2) {
       return x - 1;
     }
-    
+
     var rangeArr = [x - 1];
     rangeArr = rangeArr.concat(range(x - 1, y));
     return rangeArr;
@@ -112,7 +112,7 @@ var range = function(x, y) {
   if ((y - x) === 2) {
     return x + 1;
   }
-  
+
   var rangeArr = [x + 1];
   rangeArr = rangeArr.concat(range(x + 1, y));
   return rangeArr;
@@ -124,7 +124,7 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
- 
+
   if (exp === 0) {
     return 1;
   }
@@ -145,7 +145,7 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
-  
+
   if (n === 1) {
     return true;
   }
@@ -164,7 +164,7 @@ var powerOfTwo = function(n) {
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
-  
+
   var reversed = '';
   if (string.length === 1) {
     return string;
@@ -177,9 +177,9 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
-  
+
   string = string.toLowerCase().split(' ').join(' ');
-  
+
   if (string.length === 0 || string.length === 1) {
     return true;
   }
@@ -197,16 +197,101 @@ var palindrome = function(string) {
 
 // 11. Write a function that returns the remainder of x divided by y without using the
 // modulo (%) operator.
-// modulo(5,2) // 1
-// modulo(17,5) // 2
-// modulo(22,6) // 4
+
 var modulo = function(x, y) {
+
+  if (x < 0) {
+    var negativeX = true;
+    x = 0 - x;
+  }
+
+  if (y < 0) {
+    y = 0 - y;
+  }
+
+  if (y === 0 && x === 0) {
+    return NaN;
+  }
+
+  if (x === 0) {
+    return x;
+  }
+
+  if (x < y && negativeX) {
+    return -x;
+  } else if (x < y) {
+    return x;
+  }
+
+  if (negativeX) {
+    if ((x - y) < y) {
+      return -(x - y);
+    } else {
+      return modulo((x - y), y);
+    }
+  } else {
+    if ((x - y) < y) {
+      return (x - y);
+    } else {
+      return modulo((x - y), y);
+    }
+  }
+
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
+
 var multiply = function(x, y) {
+  console.log('x:', x)
+  console.log('y:', y)
+  if (x === 0 || y === 0) {
+    return 0;
+  }
+
+  if (x < 0) {
+    var xIsNeg = true;
+    x = 0 - x;
+  }
+
+  if (y < 0) {
+    var yIsNeg = true;
+    y = 0 - y;
+  }
+
+  if (y > x) {
+    var placeholder;
+    placeholder = y;
+    y = x;
+    console.log('flipped y:', y)
+    x = placeholder;
+    console.log('flipped x:', x)
+  }
+
+
+  if (y === 1) {
+     return x;
+  }
+  if (!(xIsNeg && yIsNeg) && (xIsNeg || yIsNeg)) {
+    return 0 - (x + multiply(x, y-1));
+  } else {
+    return x + multiply(x, y-1)
+  }
+
 };
+
+
+  // if (y === 1) {
+  //   if (xIsNeg || yIsNeg) {
+  //     console.log('neg result:', x)
+  //     return -x;
+  //   } else {
+  //     console.log('result:', x)
+  //     return x;
+  //   }
+  // } else {
+  //   return x + multiply(x, y-1);
+  // }
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
@@ -231,7 +316,7 @@ var compareStr = function(str1, str2) {
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
-  
+
   if (str.length === 1) {
     return [str];
   }
@@ -245,14 +330,14 @@ var createArray = function(str) {
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
-  
+
   if (array.length === 1) {
     return array;
   }
   var reversed = [array.pop()];
 
   reversed = reversed.concat(reverseArr(array));
-  
+
   return reversed;
 };
 
@@ -301,7 +386,7 @@ var countKeysInObj = function(obj, key) {
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
 var countValuesInObj = function(obj, value) {
- 
+
   var count = 0;
   if (typeof Object.values(obj)[0] !== 'object' && Object.values(obj)[0] === value) {
     count++;
@@ -319,7 +404,7 @@ var countValuesInObj = function(obj, value) {
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
 var replaceKeysInObj = function(obj, oldKey, newKey) {
-  
+
   if (typeof Object.values(obj)[0] !== 'object' && Object.keys(obj)[0] === oldKey) {
     obj[newKey] = obj[oldKey];
     delete obj[oldKey];
@@ -334,7 +419,7 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
       delete obj[key];
       key = newKey;
     }
-   
+
     replaceKeysInObj(obj[key], oldKey, newKey)
   }
   return obj;
