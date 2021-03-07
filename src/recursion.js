@@ -243,8 +243,6 @@ var modulo = function(x, y) {
 // Math methods.
 
 var multiply = function(x, y) {
-  console.log('x:', x)
-  console.log('y:', y)
   if (x === 0 || y === 0) {
     return 0;
   }
@@ -263,11 +261,8 @@ var multiply = function(x, y) {
     var placeholder;
     placeholder = y;
     y = x;
-    console.log('flipped y:', y)
     x = placeholder;
-    console.log('flipped x:', x)
   }
-
 
   if (y === 1) {
      return x;
@@ -277,21 +272,8 @@ var multiply = function(x, y) {
   } else {
     return x + multiply(x, y-1)
   }
-
 };
 
-
-  // if (y === 1) {
-  //   if (xIsNeg || yIsNeg) {
-  //     console.log('neg result:', x)
-  //     return -x;
-  //   } else {
-  //     console.log('result:', x)
-  //     return x;
-  //   }
-  // } else {
-  //   return x + multiply(x, y-1);
-  // }
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
@@ -361,12 +343,43 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
+
+  if (n === 1) {
+    return ['1'];
+  }
+  var fizzbuzzArr = [];
+  if (n % 15 === 0) {
+    fizzbuzzArr.push('FizzBuzz');
+  } else if (n % 3 === 0) {
+    fizzbuzzArr.push('Fizz');
+  } else if (n % 5 === 0) {
+    fizzbuzzArr.push('Buzz');
+  } else {
+    fizzbuzzArr.push(n.toString());
+  }
+
+  fizzbuzzArr = fizzBuzz(n-1).concat(fizzbuzzArr)
+  return fizzbuzzArr;
 };
 
 // 20. Count the occurence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  var count = 0;
+
+  if (array.length === 0) {
+    return 0;
+  }
+
+  if (array[array.length - 1] === value) {
+    count++;
+  }
+
+    array.pop()
+    count += countOccurrence(array, value);
+
+  return count;
 };
 
 // 21. Write a recursive version of map.
