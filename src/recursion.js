@@ -331,10 +331,7 @@ var buildList = function(value, length) {
   if (length === 1) {
     return [value];
   }
-  var list = [value];
-  list = list.concat(buildList(value, (length - 1)));
-
-  return list;
+  return [value].concat(buildList(value, (length - 1)));
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
@@ -360,6 +357,7 @@ var fizzBuzz = function(n) {
 
   fizzbuzzArr = fizzBuzz(n-1).concat(fizzbuzzArr)
   return fizzbuzzArr;
+  // return fizzBuzz(n-1).concat([word])
 };
 
 // 20. Count the occurence of a value in a list.
@@ -385,13 +383,39 @@ var countOccurrence = function(array, value) {
 // 21. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+
+  let copy = array.slice();
+
+  if (copy.length === 1) {
+    return [callback(copy[0])];
+  }
+
+  let element = copy.shift();
+  return [callback(element)].concat(rMap(copy, callback));
+
 };
 
 // 22. Write a function that counts the number of times a key occurs in an object.
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
 // countKeysInObj(obj, 'r') // 1
 // countKeysInObj(obj, 'e') // 2
-var countKeysInObj = function(obj, key) {
+var countKeysInObj = function(obj, targetKey) {
+  let count = 0;
+
+  if (Object.keys(obj).length === 1 && Object.keys(obj)[0] === targetKey) {
+    count++;
+    return count;
+  }
+
+  for (let key in obj) {
+    if (key === targetKey) {
+      count++;
+    }
+    if (typeof obj[key] === 'object') {
+      count += countKeysInObj(obj[key], targetKey);
+    }
+  }
+  return count;
 };
 
 // 23. Write a function that counts the number of times a value occurs in an object.
